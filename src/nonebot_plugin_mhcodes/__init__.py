@@ -20,7 +20,7 @@ usage = """
 查看集会码
 删除集会码 [集会码]
 重置集会码
-每天4点自动重置集会码
+PS: 每天4点自动重置集会码
 """
 
 __plugin_meta__ = PluginMetadata(
@@ -45,13 +45,13 @@ async def handle_add_code(event: GroupMessageEvent, args: Message = CommandArg()
     code = args.extract_plain_text().strip()
 
     if not code:
-        await add_code.finish("集会码不能为空，请输入有效的集会码。")
+        await add_code.finish("❌集会码不能为空，请输入有效的集会码")
         return
 
     if code_added(group_id, code):
-        await add_code.finish(f"集会码 {code} 已添加到当前群组。")
+        await add_code.finish(f"✅️集会码 {code} 已添加到当前群组")
     else:
-        await add_code.finish(f"集会码 {code} 已存在于当前群组。")
+        await add_code.finish(f"✅️集会码 {code} 已存在于当前群组")
 
 remove_code = on_command(
     "删除集会码",
@@ -65,13 +65,13 @@ async def handle_remove_code(event: GroupMessageEvent, args: Message = CommandAr
     code = args.extract_plain_text().strip()
 
     if not code:
-        await remove_code.finish("集会码不能为空，请输入有效的集会码。")
+        await remove_code.finish("❌集会码不能为空，请输入有效的集会码")
         return
 
     if code_removed(group_id, code):
-        await remove_code.finish(f"集会码 {code} 已从当前群组删除。")
+        await remove_code.finish(f"✅️集会码 {code} 已从当前群组删除")
     else:
-        await remove_code.finish(f"集会码 {code} 不存在于当前群组。")
+        await remove_code.finish(f"✅️集会码 {code} 不存在于当前群组")
 
 get_codes = on_command(
     "查看集会码",
@@ -85,9 +85,9 @@ async def handle_get_codes(event: GroupMessageEvent):
     codes = get_group_codes(group_id)
 
     if codes:
-        message = "当前集会码：\n" + "\n".join(f"{i}. {code}" for i, code in enumerate(codes, 1))
+        message = "📜当前集会码📜\n" + "\n".join(f"{i}. {code}" for i, code in enumerate(codes, 1))
     else:
-        message = "当前没有集会码。"
+        message = "❌当前没有集会码"
 
     await get_codes.finish(message)
 
@@ -102,12 +102,12 @@ async def handle_reset_code(event: GroupMessageEvent):
     group_id = str(event.group_id)
 
     if reset_all_codes_for_group(group_id):
-        await reset_code.finish("当前群组的集会码已全部重置。")
+        await reset_code.finish("✅️当前群组的集会码已全部重置")
     else:
-        await reset_code.finish("当前群组没有集会码需要重置。")
+        await reset_code.finish("❌当前群组没有集会码需要重置")
 
 @scheduler.scheduled_job("cron", hour=4, minute=0, id="reset_mh_codes_daily")
 async def daily_reset_job():
     logger.info("开始执行每日集会码重置任务...")
     reset_all_codes_daily()
-    logger.info("每日集会码重置任务完成。")
+    logger.info("✅️每日集会码重置任务完成")

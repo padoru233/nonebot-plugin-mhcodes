@@ -64,7 +64,7 @@ def reset_all_codes_for_group(group_id: str) -> bool:
     if codes:
         data["groups"][group_id]["codes"] = []
         save_data(data)
-        logger.info(f"群组 {group_id} 的集会码已通过命令重置。")
+        logger.info(f"群组 {group_id} 的集会码已通过命令重置")
         return True
     return False
 
@@ -75,13 +75,13 @@ def reset_all_codes_daily() -> None:
         for group_id in list(data["groups"].keys()):
             if "codes" in data["groups"][group_id] and data["groups"][group_id]["codes"]:
                 data["groups"][group_id]["codes"] = []
-                logger.info(f"每日重置: 群组 {group_id} 的集会码已重置。")
+                logger.info(f"每日重置: 群组 {group_id} 的集会码已重置")
                 codes_reset_count += 1
 
         if codes_reset_count > 0:
             save_data(data)
-            logger.info(f"每日集会码重置任务完成。共 {codes_reset_count} 个群组的集会码被重置。")
+            logger.info(f"每日集会码重置任务完成。共 {codes_reset_count} 个群组的集会码被重置")
         else:
-            logger.info("每日集会码重置任务完成。没有群组有活跃的集会码需要重置。")
+            logger.info("每日集会码重置任务完成。没有群组有活跃的集会码需要重置")
     else:
-        logger.info("每日集会码重置任务完成。未找到群组数据。")
+        logger.info("每日集会码重置任务完成。未找到群组数据")
