@@ -1,6 +1,6 @@
 [project]
 name = "nonebot-plugin-mhcodes"
-version = "0.1.0"
+version = "0.1.1"
 description = "记录怪物猎人集会码"
 readme = "README.md"
 authors = [{ name = "padoru233" }]
